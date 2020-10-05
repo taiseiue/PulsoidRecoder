@@ -22,6 +22,7 @@ namespace PulsoidRecoder
             Console.CancelKeyPress += Console_CancelKeyPress;
             CefSettings settings = new CefSettings();
             settings.Locale = "ja";
+            settings.LogSeverity = LogSeverity.Disable;
             settings.AcceptLanguageList = "ja-JP";
             
             Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
@@ -32,7 +33,8 @@ namespace PulsoidRecoder
             {
                 Console.WriteLine("PulsoidRecoder メインメニュー");
                 Console.WriteLine("実行したい操作を選択してください");
-                Console.Write("[R:記録モード / E:エクセル出力モード / V:閲覧モード / QまたはEsc:終了]");
+                Console.Write("[R:記録モード / E:エクセル出力モード / V:閲覧モード / L:オープンソースライセンスを表示 / QまたはEsc:終了]");
+
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Escape:
@@ -45,6 +47,17 @@ namespace PulsoidRecoder
                         {
                           
                             breakflag = true;
+                            break;
+                        }
+                    case ConsoleKey.L:
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            Console.WriteLine("オープンソースライセンス");
+                            Console.WriteLine("PulsoidRecoderはこれらのオープンソースソフトウェアによって実現しました");
+                            Console.WriteLine();
+                            Console.WriteLine(PulsoidRecoder.Properties.Resources.Licences);
+                            Console.WriteLine();
                             break;
                         }
                     case ConsoleKey.E:
@@ -142,6 +155,7 @@ namespace PulsoidRecoder
                             var browserSettings = new BrowserSettings();
                             //毎秒一枚更新されればOK
                             browserSettings.WindowlessFrameRate = 1;
+                           
                             var requestContextSettings = new RequestContextSettings { CachePath = cachePath };
                             
                            
