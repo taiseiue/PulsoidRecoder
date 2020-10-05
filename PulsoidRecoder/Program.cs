@@ -18,7 +18,7 @@ namespace PulsoidRecoder
         static bool preseCancel= false;
         static void Main(string[] args)
         {
-            Console.WriteLine("PulsoidRecoder (c)WSOFT 2020");
+            Console.WriteLine("PulsoidRecoder バージョン0.1 (c)WSOFT 2020");
             Console.CancelKeyPress += Console_CancelKeyPress;
             CefSettings settings = new CefSettings();
             settings.Locale = "ja";
@@ -160,14 +160,19 @@ namespace PulsoidRecoder
                             
                            
                             using (var requestContext = new RequestContext(requestContextSettings))
-                            using (var browser = new ChromiumWebBrowser(WidetUrl, browserSettings, requestContext))
+                            using (var browser = new ChromiumWebBrowser("", browserSettings, requestContext))
                             {
                                 List<BPMRecord> records = new List<BPMRecord>();
 
                                 //起動中は待機
+                                Console.WriteLine("ブラウザを初期化しています");
                                 while (!browser.IsBrowserInitialized) { }
+                                Console.WriteLine("ページを準備しています");
+                                browser.Load(WidetUrl);
                                 //読み込み中は待機
+                                Console.WriteLine("読み込んでいます");
                                 while (browser.IsLoading) { }
+                                Console.WriteLine("心拍表示を待機しています");
                                 //BPMが表示されていない間は待機
                                 while (GetBPM(browser)==0) { }
 
